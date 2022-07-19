@@ -1,4 +1,40 @@
 import logoUrl from "./logo.png";
+import { getNav } from "../../services/nav/load";
+
+
+class {
+
+  onInput(input){
+    const { navData} = input;
+    let nav =[];
+    if (navData){
+      nav=navData.nav
+    }
+    this.state = {
+      loading: false,
+      nav,
+    }
+  }
+  onMount() {
+    this.pending = Promise.resolve();
+    this.loadNav();
+  }
+  async loadNav(){
+      const { state } = this;
+      state.loading = true;
+      await this.pending;
+
+      try {
+        const navData = await (this.pending = getNav());
+
+        state.nav =navData.nav;
+      } catch (err) {
+        console.log("Fetch failed:", err);
+      }
+
+      state.loading.false
+  }
+}
 
 style {
   header {
@@ -19,6 +55,49 @@ style {
 }
 
 <header>
-  <img src=logoUrl class="logo"/>
-  <div>${input.title}</div>
+<!--  <img src=logoUrl class="logo"/>-->
+<!--  <div class="">${input.title}</div>-->
+
+
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+   <div class="navbar-brand">
+      <a class="navbar-item" href="https://bulma.io">
+        <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+      </a>
+
+   </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+
+      <if(state.nav)>
+
+        <div class="navbar-start  ">
+            <if(!state.nav.length)>
+                <div class="navbar-item ml-6 control is-loading is-large"/>
+            </if>
+            <for|navItem| of=state.nav>
+
+             <a class="navbar-item">
+                 ${navItem.text}
+             </a>
+            </for>
+
+        </div>
+      </if>
+
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <a class="button is-primary">
+              <strong>Sign up</strong>
+            </a>
+            <a class="button is-light">
+              Log in
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
 </header>

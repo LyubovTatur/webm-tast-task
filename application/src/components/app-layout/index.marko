@@ -1,5 +1,4 @@
 import favicon from "./favicon.png";
-
 <!doctype html>
 <html lang="en">
   <head>
@@ -7,14 +6,17 @@ import favicon from "./favicon.png";
     <link rel="icon" type="image/png" sizes="32x32" href=favicon>
     <meta name="description" content="An example application showcasing Webpack & Marko.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <app-page-meta />
     <${input.head}/>
   </head>
   <body>
-    <sample-header title="Marko UI Components Playground"/>
-    <div class="container">
+    <sample-header/>
+
+    <div class="container  m-auto ">
       <main id="main">
         <${input.body}/>
       </main>
     </div>
+  <app-footer/>
   </body>
 </html>

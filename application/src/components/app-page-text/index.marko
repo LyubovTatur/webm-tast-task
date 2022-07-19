@@ -1,0 +1,54 @@
+import {getPageText} from "../../services/page-text/load"
+
+class {
+
+    onInput(input){
+        const {pageTextData} = input;
+        let pageText = [];
+        if(pageTextData){
+            pageText=pageTextData.pageText
+        }
+        this.state = {
+
+            loading: false,
+            pageText,
+        }
+
+    }
+    onMount(){
+        this.pending = Promise.resolve();
+        this.loadPageText();
+
+    }
+    async loadPageText(){
+        const {state} = this;
+        state.loading = true;
+        await this.pending;
+        try{
+            const pageTextData = await (this.pending = getPageText())
+            state.pageText = pageTextData.pageText
+            // this.CreateHtmlFromPageText(pageTextData.pageText)
+        } catch(err){
+            console.log('Fetch failed:',err);
+        }
+
+        state.loading = false
+
+    }
+
+}
+<div>
+    <div class="columns mt-2">
+    <if(state.pageText)>
+    <if(!state.pageText.length)>
+    <div class="control is-loading "/>
+    </if>
+        <for|pageTextItem| of=state.pageText>
+            <${pageTextItem.tag} class='card m-2 column'>
+            ${pageTextItem.content}
+            </${pageTextItem.tag}>
+    </for>
+
+    </if>
+</div>
+</div>

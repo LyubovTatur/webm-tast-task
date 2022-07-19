@@ -1,0 +1,50 @@
+import { getPageMeta } from "../../services/page-meta/load"
+
+class {
+    onInput(input){
+        const { pageMetaData } = input;
+        let pageMeta = []
+        if (pageMetaData){
+            pageMeta = pageMetaData.pageMeta
+        }
+        this.state = {
+            loading:false,
+            pageMeta
+        }
+    }
+    onMount(){
+
+        this.pending = Promise.resolve();
+        this.loadPageMeta();
+
+    }
+    async loadPageMeta(){
+        const {state} = this;
+        state.loading = true;
+
+        try{
+            const pageMetaData = await (this.pending = getPageMeta());
+            state.pageMeta = pageMetaData.pageMeta
+        } catch (err){
+            console.log('Fetch failed:',err)
+        }
+        state.loading = false
+    }
+
+}
+
+<div.page-meta>
+
+
+
+    <if(state.pageMeta)>
+        <for|pageMetaItem| of=state.pageMeta>
+            <title>${pageMetaItem.title}</title>
+            <meta name="keywords" content=pageMetaItem.meta_keywords>
+            <meta name="description" content=pageMetaItem.meta_description>
+            <h1  style="text-align: center">${pageMetaItem.h1}</h1>
+
+
+        </for>
+    </if>
+</div.page-meta>

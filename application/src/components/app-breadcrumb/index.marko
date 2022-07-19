@@ -1,0 +1,51 @@
+import { getBreadcrumbs } from "../../services/breadcrumbs/load";
+
+class {
+  onInput(input){
+    const { breadcrumbsData} = input;
+    let breadcrumbs =[];
+    if (breadcrumbsData){
+    breadcrumbs=breadcrumbsData.breadcrumbs
+    }
+    this.state = {
+      loading: false,
+      breadcrumbs,
+    }
+  }
+  onMount() {
+    this.pending = Promise.resolve();
+    this.loadBreadcrumbs();
+  }
+  async loadBreadcrumbs(){
+    const { state } = this;
+    state.loading = true;
+    await this.pending;
+
+    try {
+      const breadcrumbsData = await (this.pending = getBreadcrumbs());
+
+      state.breadcrumbs =breadcrumbsData.breadcrumbs;
+    } catch (err) {
+      console.log("Fetch failed:", err);
+    }
+
+    state.loading.false
+  }
+}
+
+<div.breadcrumb>
+  <nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+      <if(state.breadcrumbs)>
+        <if(!state.breadcrumbs.length)>
+          <div class="control is-loading "/>
+        </if>
+        <for|breadcrumbItem| of=state.breadcrumbs>
+           <li><a href=breadcrumbItem.href>${breadcrumbItem.text}</a></li>
+
+      </for>
+      </if>
+
+    </ul>
+  </nav>
+</div>
