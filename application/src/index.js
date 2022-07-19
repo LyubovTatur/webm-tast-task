@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 5000;
 
 express()
     .use(compressionMiddleware()) // Enable gzip compression for all HTTP responses.
-    .use("/assets", express.static("dist/assets")) // Serve assets generated from webpack.
+    // .use("/assets", express.static("dist/assets")) // Serve assets generated from webpack.
     .use(express.static(path.join(__dirname, 'public')))
     .use(markoMiddleware()) // Enables res.marko.
     .get("/", indexPage)
