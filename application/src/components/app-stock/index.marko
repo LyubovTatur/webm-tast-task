@@ -73,52 +73,19 @@ handleLoadMoreClick() {
 
                 <for|good| of=state.goods>
                     <div class="tile column is-parent   is-half" >
-                        <div class="tile is-child "> <!--это компоннент-->
-                            <div class="tile is-parent is-vertical vert " style="border: black 1px">
-                                <div class="tile  is-child " >
-                                    <div class="tile  is-parent notification ">
-                                        <div class="tile is-child   card ">
-                                            <article class="  image is-3by2 ">
-                                                    <img src=good.image />
-                                            </article>
-                                                <article class="  subtitle p-1" style="background-color: rgba(255,213,59,0.22)">${good.price_currency} ${good.price}</article>
-                                                                                            <strong class="tile is-child is-small p-1">${good.title}</strong>
-
-                                        </div>
-
-                                        <div class="tile notification card  is-child ">
-                                            <div class="    ">
-                                                <div><i>make:</i><strong> ${good.make}</strong></div>
-                                                <div><i>model:</i><strong> ${good.model}</strong></div>
-                                                <div><i>type:</i><strong> ${good.type}</strong></div>
-                                                <div><i>year:</i><strong> ${good.year}</strong></div>
-                                                <div><i>miles:</i><strong> ${good.mileage} ${good.mileage_measure}</strong></div>
-                                                <div><i>axle:</i><strong> ${good.axle_configuration}</strong></div>
-                                                <div><i>power:</i><strong> ${good.power} ${good.power_measure}</strong></div>
-                                                <div><i>payload:</i><strong> ${good.payload}</strong></div>
-                                                <div><i>weight:</i><strong> ${good.gross_weight}</strong></div>
-
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                        </div>
-                    </div>
+                        <app-good good=good/>
                     </div>
                 </for>
             </div>
         </if>
 
     <div class=" has-text-centered">
-    <app-button
+    <button class="button"
 
-            label=(state.goods.length? state.pageIndex+1===state.maxPage? ('return to begin') : ('PAGE '+ (state.pageIndex+2)):'load goods')
+
             onClick("handleLoadMoreClick")
-    />
+    >${(state.goods.length? state.pageIndex+1===state.maxPage? ('return to begin') : ('PAGE '+ (state.pageIndex+2)):'load goods')}</button>
 
     </div>
 
-    <span class={ loading: state.loading } />
 </div>
