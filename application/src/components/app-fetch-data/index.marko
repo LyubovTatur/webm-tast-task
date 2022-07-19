@@ -1,0 +1,216 @@
+import { getGoods } from "../../services/goods/load";
+import { getNav } from "../../services/nav/load";
+import { getPageMeta } from "../../services/page-meta/load";
+import { getBreadcrumbs } from "../../services/breadcrumbs/load";
+import { getPageText } from "../../services/page-text/load";
+
+class {
+    onInput(input) {
+        const { goodsData, navData, pageMetaData, breadcrumbsData, pageTextData } = input;
+        let pageIndex = -1;
+        let goods = [];
+        let nav =[];
+        let pageMeta = {};
+        let breadcrumbs = [];
+        let pageText = [];
+
+        if (goodsData) {
+            goods = goodsData.goods;
+            pageIndex = goodsData.pageIndex;
+        }
+        if (navData){
+            nav=navData.nav
+        }
+        if (pageMetaData){
+            pageMeta=pageMetaData.pageMeta
+        }
+        if (breadcrumbsData){
+            breadcrumbs=breadcrumbsData.breadcrumbs
+
+        }
+        if (pageTextData){
+            pageText=pageTextData.pageText
+        }
+
+        this.state = {
+            maxPage: 0,
+            loading: false,
+            goods: goods,
+            nav: nav,
+            pageMeta: pageMeta,
+            breadcrumbs: breadcrumbs,
+            pageText: pageText,
+            pageIndex: pageIndex
+        };
+    }
+
+    onMount() {
+        this.pending = Promise.resolve();
+        this.loadNav();
+        this.loadBreadcrumbs();
+        this.loadPageMeta();
+        this.loadPageText();
+        if (this.state.goods.length === 0) {
+            this.loadMore();
+        }
+        console.log(pageMetaData)
+
+}
+
+    async loadMore() {
+        const { state } = this;
+
+        state.loading = true;
+        await this.pending;
+
+        try {
+            const goodsData = await (this.pending = getGoods({ pageIndex: state.pageIndex+1 }));
+            state.goods =goodsData.goods;
+            state.pageIndex = goodsData.pageIndex
+            state.maxPage = goodsData.maxPage
+        } catch (err) {
+            console.log("Fetch failed:", err);
+    }
+
+
+        state.loading = false;
+    }
+
+    async loadNav(){
+        const { state } = this;
+        state.loading = true;
+        await this.pending;
+
+        try {
+            const navData = await (this.pending = getNav());
+
+            state.nav =navData.nav;
+        } catch (err) {
+            console.log("Fetch failed:", err);
+        }
+
+            state.loading.false
+    }
+    async loadPageMeta(){
+        const { state } = this;
+        state.loading = true;
+        await this.pending;
+
+        try {
+            const pageMetaData = await (this.pending = getPageMeta());
+            state.pageMeta =pageMetaData.pageMeta[0];
+            console.log(state.pageMeta)
+        } catch (err) {
+            console.log("Fetch failed:", err);
+        }
+
+        state.loading.false
+    }
+
+    async loadBreadcrumbs(){
+        const { state } = this;
+        state.loading = true;
+        await this.pending;
+
+        try {
+            const breadcrumbsData = await (this.pending = getBreadcrumbs());
+
+            state.breadcrumbs =breadcrumbsData.breadcrumbs;
+        } catch (err) {
+            console.log("Fetch failed:", err);
+        }
+
+        state.loading.false
+    }
+
+
+    async loadPageText(){
+        const { state } = this;
+        state.loading = true;
+        await this.pending;
+
+        try {
+            const pageTextData = await (this.pending = getPageText());
+
+            state.pageText =pageTextData.pageText;
+        } catch (err) {
+        console.log("Fetch failed:", err);
+        }
+
+        state.loading.false
+    }
+
+handleLoadMoreClick() {
+        console.log(this.state.goods)
+        this.loadMore();
+    }
+
+    onUpdate() {
+        if (this.state.pageIndex > 0) {
+            const tableContainer = this.getEl("tableContainer");
+            tableContainer.scrollTop = tableContainer.scrollHeight;
+        }
+    }
+}
+
+<div.app-fetch-data>
+    <div class="table-container" key="tableContainer">
+        <if(state.nav)>
+                _Nav_
+            <for|navItem| of=state.nav>
+                ${navItem.text}
+            </for>
+        </if>
+        <br/>
+        <if(state.pageMeta)>
+            _Pagemeta_
+            ${state.pageMeta['h1']}
+        </if>
+        <br/>
+        <if(state.breadcrumbs)>
+        _Breadcrumbs_
+        <for|breadcrumb| of=state.breadcrumbs>
+        ${breadcrumb.href}
+        </for>
+        <br/>
+        </if>
+        <if(state.pageText)>
+        _PageText_
+        <for|pageTextItem| of=state.pageText>
+        ${pageTextItem.tag}
+        </for>
+        </if>
+        <br/>
+        <if(state.goods.length)>
+            ${state.pageIndex}
+        <table>
+            <thead>
+            <tr>
+                <td>ID</td>
+                <td>Avatar</td>
+                <td>Name</td>
+                <td>Email</td>
+            </tr>
+            </thead>
+            <tbody>
+            <for|good| of=state.goods>
+            <tr>
+                <td>${good.id}</td>
+                <td>
+                    <img src=good.image width=50 height=50/>
+                </td>
+                <td>${good.mileage} ${good.price_currency}</td>
+                <td>${good.model}</td>
+            </tr>
+            </for>
+            </tbody>
+        </table>
+        </if>
+    </div>
+    <app-button
+
+            label=(state.goods.length? state.pageIndex+1===state.maxPage? ('return to begining') : 'next':'load goods')
+            onClick("handleLoadMoreClick")
+    />
+    <span class={ loading: state.loading }/>
+</div>

@@ -40,15 +40,14 @@ class {
 <div>
     <div class="columns mt-2">
     <if(state.pageText)>
-    <if(!state.pageText.length)>
-    <div class="control is-loading "/>
-    </if>
+        <if(!state.pageText.length)>
+            <div class="control is-loading "/>
+        </if>
         <for|pageTextItem| of=state.pageText>
             <${pageTextItem.tag} class='card m-2 column'>
-            ${pageTextItem.content}
+                ${pageTextItem.content}
             </${pageTextItem.tag}>
-    </for>
-
+        </for>
     </if>
 </div>
 </div>

@@ -1,9 +1,6 @@
-import logoUrl from "./logo.png";
+<<<<<<< HEAD
 import { getNav } from "../../services/nav/load";
-
-
 class {
-
   onInput(input){
     const { navData} = input;
     let nav =[];
@@ -35,56 +32,42 @@ class {
       state.loading.false
   }
 }
+=======
+import logoUrl from "./logo.png";
+>>>>>>> parent of 78192e8 (task is done)
 
 style {
   header {
     font-size: 2em;
     font-weight: 300;
     background-color: #f1f1f1;
-    padding: 38px 10px;
     text-align: center;
   }
-  body {
-    font-family: "Helvetica Neue", Roboto, "Arial Nova", "Segoe UI", Arial,
-      sans-serif;
-    margin: 0 auto;
-  }
-  .logo {
-    height: 2.2em;
-  }
+
+
 }
 
 <header>
-<!--  <img src=logoUrl class="logo"/>-->
-<!--  <div class="">${input.title}</div>-->
-
-
-  <nav class="navbar" role="navigation" aria-label="main navigation">
+<<<<<<< HEAD
+  <nav class="navbar" role="navigation" aria-label="main navigation" style="background-color: rgba(255,213,59,0.22)">
    <div class="navbar-brand">
       <a class="navbar-item" href="https://bulma.io">
-        <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+        <img src="https://uxwing.com/wp-content/themes/uxwing/download/30-logistics-shipping-delivery/long-truck.png"    height="28">
       </a>
-
    </div>
-
-    <div id="navbarBasicExample" class="navbar-menu">
-
+   <div id="navbarBasicExample" class="navbar-menu">
       <if(state.nav)>
-
         <div class="navbar-start  ">
             <if(!state.nav.length)>
                 <div class="navbar-item ml-6 control is-loading is-large"/>
             </if>
             <for|navItem| of=state.nav>
-
              <a class="navbar-item">
                  ${navItem.text}
              </a>
             </for>
-
         </div>
       </if>
-
       <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
@@ -97,7 +80,10 @@ style {
           </div>
         </div>
       </div>
-    </div>
+   </div>
   </nav>
-
+=======
+  <img src=logoUrl class="logo"/>
+  <div>${input.title}</div>
+>>>>>>> parent of 78192e8 (task is done)
 </header>

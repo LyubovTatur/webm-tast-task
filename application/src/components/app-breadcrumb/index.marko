@@ -41,7 +41,11 @@ class {
           <div class="control is-loading "/>
         </if>
         <for|breadcrumbItem| of=state.breadcrumbs>
-           <li><a href=breadcrumbItem.href>${breadcrumbItem.text}</a></li>
+           <li>
+             <a href=breadcrumbItem.href>
+               ${breadcrumbItem.text}
+             </a>
+           </li>
 
       </for>
       </if>
