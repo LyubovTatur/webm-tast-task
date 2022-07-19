@@ -1,6 +1,6 @@
 import dataset from "../dataset.json";
 
-const pageSize = 3  ;
+const pageSize = 4;
 
 
 

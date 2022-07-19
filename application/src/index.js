@@ -2,6 +2,7 @@ import express from "express";
 import compressionMiddleware from "compression";
 import markoMiddleware from "@marko/express";
 import indexPage from "./pages/index";
+// import usersService from "./services/users";
 import goodsService from "./services/goods";
 import navService from "./services/nav";
 import pageMetaService from "./services/page-meta";
@@ -15,6 +16,7 @@ express()
     .use("/assets", express.static("dist/assets")) // Serve assets generated from webpack.
     .use(markoMiddleware()) // Enables res.marko.
     .get("/", indexPage)
+    // .get("/services/users", usersService)
     .get("/services/goods", goodsService)
     .get("/services/nav", navService)
     .get("/services/page-meta", pageMetaService)
