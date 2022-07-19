@@ -9,11 +9,17 @@ import pageMetaService from "./services/page-meta";
 import breadcrumbsService from "./services/breadcrumbs";
 import pageTextService from "./services/page-text";
 
-const port = parseInt(process.env.PORT || 3000, 10);
+const cool = require('cool-ascii-faces');
+const path = require('path');
+const PORT = process.env.PORT || 5000;
+
+
+// const port = parseInt(process.env.PORT || 3000, 10);
 
 express()
     .use(compressionMiddleware()) // Enable gzip compression for all HTTP responses.
     .use("/assets", express.static("dist/assets")) // Serve assets generated from webpack.
+    .use(express.static(path.join(__dirname, 'public')))
     .use(markoMiddleware()) // Enables res.marko.
     .get("/", indexPage)
     // .get("/services/users", usersService)
@@ -22,12 +28,16 @@ express()
     .get("/services/page-meta", pageMetaService)
     .get("/services/breadcrumbs", breadcrumbsService)
     .get("/services/page-text", pageTextService)
-    .listen(port, err => {
+    .set('views', path.join(__dirname, 'views'))
+    .set('view engine', 'ejs')
+    .get('/', (req, res) => res.render('pages/index'))
+    .get('/cool', (req, res) => res.send(cool()))
+    .listen(PORT, err => {
         if (err) {
             throw err;
         }
 
-        if (port) {
-            console.log(`Listening on port ${port}`);
+        if (PORT) {
+            console.log(`Listening on port ${PORT}`);
         }
     });
