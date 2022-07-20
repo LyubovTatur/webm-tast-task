@@ -14,15 +14,13 @@ const path = require('path');
 const PORT = process.env.PORT || 5000;
 
 
-// const port = parseInt(process.env.PORT || 3000, 10);
 
 express()
     .use(compressionMiddleware()) // Enable gzip compression for all HTTP responses.
-    // .use("/assets", express.static("dist/assets")) // Serve assets generated from webpack.
+    .use("/assets", express.static("dist/assets")) // Serve assets generated from webpack.
     .use(express.static(path.join(__dirname, 'public')))
     .use(markoMiddleware()) // Enables res.marko.
     .get("/", indexPage)
-    // .get("/services/users", usersService)
     .get("/services/goods", goodsService)
     .get("/services/nav", navService)
     .get("/services/page-meta", pageMetaService)

@@ -69,13 +69,18 @@ handleLoadMoreClick() {
 <div class="">
 
             <if(state.goods.length)>
-            <div class="tile columns is-multiline  is-ancestor">
+            <div class="columns ">
+                <div class="column card notification mr-5 is-2 mb-0">
+                   Empty
+                </div>
+                <div class="tile column columns is-multiline p-0 is-ancestor">
 
                 <for|good| of=state.goods>
-                    <div class="tile column is-parent   is-half" >
+                    <div class="tile column is-parent  p-0 is-half" >
                         <app-good good=good/>
                     </div>
                 </for>
+            </div>
             </div>
         </if>
 
